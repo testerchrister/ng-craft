@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.css';
+body{
+    background-color: aliceblue;
+}
+.container {
+    font-size: 1.5em;
+}
+.canvas-wrapper{
+    display: flex;
+}
+.canvas-wrapper > div{
+    flex:1;
+}
+.canvas-board{
+    min-height: 87vh;
+}
