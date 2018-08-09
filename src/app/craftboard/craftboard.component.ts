@@ -21,7 +21,7 @@ export class CraftboardComponent implements AfterViewInit {
 
     this.context.lineWidth = 2;
     this.context.lineCap = 'round';
-    this.context.strokeStyle = '#fff';
+    this.context.strokeStyle = '#000';
 
     this.captureEvents(board);
   }
@@ -30,10 +30,10 @@ export class CraftboardComponent implements AfterViewInit {
   {
     if (this.tool === 'eraser') {
       this.context.lineWidth = 20;
-      this.context.strokeStyle = '#000';
+      this.context.strokeStyle = '#fff';
     } else {
       this.context.lineWidth = 2;
-      this.context.strokeStyle = '#fff';
+      this.context.strokeStyle = '#000';
     }
   }
 
@@ -98,6 +98,7 @@ export class CraftboardComponent implements AfterViewInit {
         this.context.arc(currPos.x, currPos.y,distance, 0, Math.PI * 2, false);
         this.context.clearRect(prevPos.x, prevPos.y, (currPos.x - prevPos.x) - this.context.lineWidth, (currPos.y - prevPos.y) + this.context.lineWidth);
         this.context.stroke();
+        this.context.fillStyle= '#fff';
         this.context.fill();
         
       } else {
