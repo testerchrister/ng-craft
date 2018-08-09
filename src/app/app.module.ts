@@ -4,11 +4,13 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { AppComponent } from './app.component';
 import { CraftboardComponent } from './craftboard/craftboard.component';
+import { ToolBoxComponent } from './tool-box/tool-box.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CraftboardComponent
+    CraftboardComponent,
+    ToolBoxComponent
   ],
   imports: [
     BrowserModule,

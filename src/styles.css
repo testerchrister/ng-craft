@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.css';
+@import './assets/css/animate.css';
 .board-title  {
     text-align: center;
 }
@@ -21,6 +22,10 @@ body{
     justify-content: center;
     min-height: 87vh;
 
+}
+tool-box{
+    display: flex;
+    flex: 1;
 }
 .tools {
     text-align: center;
@@ -44,6 +49,11 @@ body{
     cursor: pointer;
 }
 
+.tool:active{
+    animation-name: pulse;
+    animation-duration: 2s;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.75);
+}
 @media(max-width: 821px) {
     .container {
         margin-bottom: 1em;
