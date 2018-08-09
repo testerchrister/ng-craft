@@ -11,6 +11,8 @@ export class CraftboardComponent implements AfterViewInit {
 
   @ViewChild('craftboard') public craftboard: ElementRef;
   private context: CanvasRenderingContext2D;
+  private squareStart: boolean;
+  private squareStartPoint: Point;
   @Input() tool: string;
 
   ngAfterViewInit() {
@@ -37,31 +39,14 @@ export class CraftboardComponent implements AfterViewInit {
 
   private captureEvents(event: HTMLCanvasElement)
   {
-    console.log("On Capture Event: ", this.tool);
-    switch(this.tool) {
-      case 'square':
-      //TBD
-        break;
-      case 'circle':
-      //TBD
-        break;
-      case 'triangle':
-      //TBD
-        break;
-      case 'pencil':
-      case 'eraser':
-      default:
-        this.drawLine(event);
-        break;
-    }
-    
-  
-  }
-
-  private drawLine(event: HTMLCanvasElement)
-  {
+    var tempPoint: Point;
     fromEvent(event, 'mousedown')
     .pipe(switchMap(e => {
+        if ((this.tool == 'square' || this.tool == 'circle' ) && !this.squareStart) {
+          this.squareStart = true;
+        } else {
+          this.squareStart = false;
+        }
         return fromEvent(event, 'mousemove')
         .pipe(
             takeUntil(fromEvent(event, 'mouseup')), 
@@ -71,18 +56,29 @@ export class CraftboardComponent implements AfterViewInit {
     }))
     .subscribe((res: [MouseEvent, MouseEvent])=>{
       const rect = event.getBoundingClientRect();
-      const prevPos = {
-        x: res[0].clientX - rect.left,
-        y: res[0].clientY - rect.top
+      
+      if (this.squareStart) {
+        if (!tempPoint) 
+          tempPoint = {
+            x: res[0].clientX - rect.left,
+            y: res[0].clientY - rect.top
+          }
+      } else {
+        tempPoint = {
+          x: res[0].clientX - rect.left,
+          y: res[0].clientY - rect.top
+        }
       }
+      const prevPos = tempPoint;
 
       const currPos = {
         x: res[1].clientX - rect.left,
         y: res[1].clientY - rect.top
       }
       this.drawonCanvas(prevPos, currPos);
-    })
+    }) 
   }
+
   private drawonCanvas(prevPos: Point, currPos: Point)
   {
     if (!this.context) {
@@ -91,9 +87,24 @@ export class CraftboardComponent implements AfterViewInit {
     this.context.beginPath();
 
     if(prevPos) {
-      this.context.moveTo(prevPos.x, prevPos.y);
-      this.context.lineTo(currPos.x, currPos.y);
-      this.context.stroke();
+      if (this.tool == 'square') {
+        this.context.clearRect(prevPos.x, prevPos.y, currPos.x - prevPos.x, currPos.y - prevPos.y);
+        this.context.strokeRect(prevPos.x, prevPos.y, currPos.x - prevPos.x, currPos.y - prevPos.y);
+      } else if (this.tool == 'circle') {
+        //this.context.ellipse(prevPos.x, prevPos.y, currPos.x - prevPos.x, currPos.y - prevPos.y, 1, 0, 360, true);
+        
+        var distance = Math.sqrt(Math.pow(prevPos.x - currPos.x, 2) + Math.pow(prevPos.y - currPos.y, 1));
+        console.log(distance);
+        this.context.arc(currPos.x, currPos.y,distance, 0, Math.PI * 2, false);
+        this.context.clearRect(prevPos.x, prevPos.y, (currPos.x - prevPos.x) - this.context.lineWidth, (currPos.y - prevPos.y) + this.context.lineWidth);
+        this.context.stroke();
+        this.context.fill();
+        
+      } else {
+        this.context.moveTo(prevPos.x, prevPos.y);
+        this.context.lineTo(currPos.x, currPos.y);
+        this.context.stroke();
+      }
     }
   }
 
