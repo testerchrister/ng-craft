@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { Observable, fromEvent } from 'rxjs';
 import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
 
@@ -11,6 +11,7 @@ export class CraftboardComponent implements AfterViewInit {
 
   @ViewChild('craftboard') public craftboard: ElementRef;
   private context: CanvasRenderingContext2D;
+  @Input() tool: string;
 
   ngAfterViewInit() {
     const board: HTMLCanvasElement = this.craftboard.nativeElement;
@@ -23,9 +24,42 @@ export class CraftboardComponent implements AfterViewInit {
     this.captureEvents(board);
   }
 
+  ngAfterViewChecked()
+  {
+    if (this.tool === 'eraser') {
+      this.context.lineWidth = 20;
+      this.context.strokeStyle = '#000';
+    } else {
+      this.context.lineWidth = 2;
+      this.context.strokeStyle = '#fff';
+    }
+  }
+
   private captureEvents(event: HTMLCanvasElement)
   {
+    console.log("On Capture Event: ", this.tool);
+    switch(this.tool) {
+      case 'square':
+      //TBD
+        break;
+      case 'circle':
+      //TBD
+        break;
+      case 'triangle':
+      //TBD
+        break;
+      case 'pencil':
+      case 'eraser':
+      default:
+        this.drawLine(event);
+        break;
+    }
     
+  
+  }
+
+  private drawLine(event: HTMLCanvasElement)
+  {
     fromEvent(event, 'mousedown')
     .pipe(switchMap(e => {
         return fromEvent(event, 'mousemove')
@@ -48,9 +82,7 @@ export class CraftboardComponent implements AfterViewInit {
       }
       this.drawonCanvas(prevPos, currPos);
     })
-  
   }
-
   private drawonCanvas(prevPos: Point, currPos: Point)
   {
     if (!this.context) {

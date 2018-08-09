@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'tool-box',
@@ -7,12 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ToolBoxComponent implements OnInit {
 
+  @Output() toolSelected = new EventEmitter<string>();
   constructor() { }
 
   ngOnInit() {
   }
 
-  chooseTool(tool) {
+  chooseTool(tool: string) {
     console.log('Tool selected', tool);
+    this.toolSelected.emit(tool);
   }
 }

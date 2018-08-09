@@ -8,10 +8,10 @@
   </div>
   <div class="row canvas-wrapper">
     <div class="col-md-10 canvas-board" >
-        <craftboard></craftboard>
+        <craftboard [tool]=selectedTool()></craftboard>
     </div>
     <div class="col-md-2">
-        <tool-box></tool-box>
+        <tool-box (toolSelected)="setTool($event)"></tool-box>
     </div>
   </div>
 </div>
