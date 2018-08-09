@@ -18,7 +18,7 @@ export class CraftboardComponent implements AfterViewInit {
 
     this.context.lineWidth = 2;
     this.context.lineCap = 'round';
-    this.context.strokeStyle = '#000';
+    this.context.strokeStyle = '#fff';
 
     this.captureEvents(board);
   }

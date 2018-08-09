@@ -1,5 +1,6 @@
 
 .craftboard {
-    background-color: #fff;
-    min-height: inherit;
+    background-color: #000;
+    color: #fff;
+    cursor: url(/assets/img/pencil.ico), auto;
 }

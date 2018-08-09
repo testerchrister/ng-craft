@@ -1,7 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.css';
+.board-title  {
+    text-align: center;
+}
 body{
-    background-color: aliceblue;
+    background-color:#f1f1f1;
 }
 .container {
     font-size: 1.5em;
@@ -10,8 +13,45 @@ body{
     display: flex;
 }
 .canvas-wrapper > div{
+    display: flex;
     flex:1;
 }
 .canvas-board{
+    display: flex;
+    justify-content: center;
     min-height: 87vh;
+
+}
+.tools {
+    text-align: center;
+    display: flex;
+    width: 100%;
+}
+.tool-head{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+.tool-box {
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+}
+
+.tool {
+    flex: 1;
+    cursor: pointer;
+}
+
+@media(max-width: 821px) {
+    .container {
+        margin-bottom: 1em;
+    }
+    .tools{
+        padding: 1em;
+    }
+    .tools, .tool-box {
+        flex-direction: row;
+    }
 }
